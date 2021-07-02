@@ -1,4 +1,5 @@
-import 'package:efinance/pages/Home.dart';
+import 'package:efinance/Login.dart';
+import 'package:efinance/Home.dart';
 import 'package:flutter/material.dart';
 
 //Lastly we come to our main app

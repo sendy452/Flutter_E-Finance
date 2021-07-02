@@ -1,7 +1,12 @@
-import 'package:efinance/pages/Fragments.dart' as Fragments;
+import 'pages/DashboardFragments.dart';
+import 'pages/PemasukanFragments.dart';
+import 'pages/PengeluaranFragments.dart';
+import 'pages/LaporanFragments.dart';
+import 'pages/SettingsFragments.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-//Let's define a DrawerItem data object
+//Define a DrawerItem data object
 class DrawerItem {
   String title;
   IconData icon;
@@ -9,9 +14,9 @@ class DrawerItem {
   DrawerItem(this.title, this.icon);
 }
 
-// Our Homepage
+//Homepage
 class HomePage extends StatefulWidget {
-  //Let's define our drawer items, strings and images
+  //Define drawer items, strings and icons
   final drawerItems = [
     new DrawerItem("Dashboard", Icons.home),
     new DrawerItem("Pemasukan", Icons.arrow_forward),
@@ -20,47 +25,47 @@ class HomePage extends StatefulWidget {
     new DrawerItem("Pengaturan", Icons.settings)
   ];
 
-  //Let's Create and Return state for this 'StatefulWidget'
+  //Create and Return state for this 'StatefulWidget'
   @override
   State<StatefulWidget> createState() {
     return new HomePageState();
   }
 }
 
-// Let's define state for our homepage. A state is just information for a widget.
+//Define state for our homepage.
 class HomePageState extends State<HomePage> {
   int _selectedDrawerIndex = 0;
 
-  //Let's use a switch statement to return the Fragment for a selected item
+  //Use a switch statement to return the Pages for a selected item
   _getDrawerFragment(int pos) {
     switch (pos) {
       case 0:
-        return new Fragments.Meteors();
+        return new DashboardFragments();
       case 1:
-        return new Fragments.Moons();
+        return new PemasukanFragments();
       case 2:
-        return new Fragments.Stars();
+        return new PengeluaranFragments();
       case 3:
-        return new Fragments.Galaxies();
+        return new LaporanFragments();
       case 4:
-        return new Fragments.Settings();
+        return new SettingsFragments();
 
       default:
         return new Text("Error");
     }
   }
 
-  //Let's update the selectedDrawerItemIndex the close the drawer
+  //Update the selectedDrawerItemIndex the close the drawer
   _onSelectItem(int index) {
     setState(() => _selectedDrawerIndex = index);
-    //we close the drawer
+    //Close the drawer
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> drawerOptions = [];
-    //Let's create drawer list items. Each will have an icon and text
+    //Create drawer list items. Each list will have an icon and title
     for (var i = 0; i < widget.drawerItems.length; i++) {
       var d = widget.drawerItems[i];
       drawerOptions.add(new ListTile(
@@ -70,26 +75,40 @@ class HomePageState extends State<HomePage> {
         onTap: () => _onSelectItem(i),
       ));
     }
-    //Let's scaffold our homepage
+    //Scaffold homepage drawer
     return new Scaffold(
       appBar: new AppBar(
-        // We will dynamically display title of selected page
+        //Dynamically display title of selected page
         title: new Text(widget.drawerItems[_selectedDrawerIndex].title),
       ),
-      // Let's register our Drawer to the Scaffold
+      //Make Drawer to the Scaffold
       drawer: new Drawer(
         child: new Column(
           children: <Widget>[
-            //Lets Create a material design drawer header with account name, email,avatar
+            //Create a material design drawer header with account name, email,avatar
             new UserAccountsDrawerHeader(
-              accountName: new Text("Oclemy"),
-              accountEmail: new Text("oclemmi@gmail.com"),
+              accountName: new Container(
+                child: new Text ("Oclemy"),
+                decoration: new BoxDecoration (
+                    color: Colors.white,
+                    borderRadius: new BorderRadius.circular(4.0)
+                ),
+                padding: new EdgeInsets.fromLTRB(2.0, 2.0, 2.0, 2.0),
+              ),
+              accountEmail: new Container(
+                child: new Text ("oclemmi@gmail.com"),
+                decoration: new BoxDecoration (
+                    color: Colors.white,
+                    borderRadius: new BorderRadius.circular(4.0)
+                ),
+                padding: new EdgeInsets.fromLTRB(2.0, 2.0, 2.0, 2.0),
+              ),
               currentAccountPicture: new CircleAvatar(
-                backgroundImage: new AssetImage("assets/profile.jpg"),
+                backgroundImage: new AssetImage("assets/user.png"),
               ),
               decoration: new BoxDecoration(
                   image: new DecorationImage(
-                      image: new AssetImage("assets/bg.png"),
+                      image: new AssetImage("assets/finance.png"),
                       fit: BoxFit.cover)),
             ),
             new Column(children: drawerOptions)
